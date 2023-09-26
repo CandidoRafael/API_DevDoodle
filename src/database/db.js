@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 const connectDataBase = () => {
     console.log("Tentando conectar")
 
-    const uri = "mongodb+srv://rafaelCandido:123.4rafa@cluster0.i2sso19.mongodb.net/?retryWrites=true&w=majority"
+    const uri = process.env.MONGODB_URI
 
     const options = {
       useNewUrlParser: true, 
