@@ -1,11 +1,15 @@
-const express = require('express')
-const userRoute = require('./src/routes/user.route')
+import express from 'express'
+import connectDataBase from './src/database/db.js'
+import userRoute from './src/routes/user.route.js'
 
 const app = express()
+const port = 3000
 
-app.use('/soma', userRoute)
+connectDataBase()
+app.use(express.json())
+app.use('/user', userRoute)
 
-app.listen(3000);
+app.listen(port, () => console.log(`Servidor rodando na porta ${port}`));
 
 // ROTAS
 // Method HTTP
@@ -14,13 +18,3 @@ app.listen(3000);
 // PUT - Altera toda a info
 // PATCH - Altera parte da info
 // DELETE - Apaga uma info
-
-// Name - Um identificador da rota
-
-// Function - (callback)
-
-// app.get('/home', (req, res) => {
-//   const soma = 1 + 230
-
-//   res.send({ soma })
-// });
