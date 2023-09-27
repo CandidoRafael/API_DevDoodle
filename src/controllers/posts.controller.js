@@ -3,7 +3,9 @@ import {
     findAllService, 
     countPosts,
     topPostsService,
-    findByIdService
+    findByIdService,
+    searchByTitleService,
+    byUserService
 } from '../services/posts.service.js'
 
 
@@ -129,6 +131,60 @@ export const findById = async (req, res) => {
                 username: posts.user.username,
                 userAvatar: posts.user.avatar
             }
+      })
+
+    } catch (error) {
+        res.status(500).send({message: error.message})
+    }
+}
+
+export const searchByTitle = async (req, res) => {
+    try {
+      const { title } = req.query
+
+      const posts = await searchByTitleService(title)
+
+      if(posts.length === 0) {
+        return res.status(400).send({ message: "There are no posts with this title" })
+      }
+
+      res.send({
+        results: posts.map(postsItem => ({ 
+            id: postsItem._id,
+            title: postsItem.title,
+            text: postsItem.text,
+            banner: postsItem.banner,
+            likes: postsItem.likes,
+            comments: postsItem.comments,
+            name: postsItem.user.name,
+            username: postsItem.user.username,
+            userAvatar: postsItem.user.avatar
+        }))
+      })
+
+    } catch (error) {
+        res.status(500).send({message: error.message})
+    }
+}
+
+export const byUser = async (req, res) => {
+    try {
+      const id = req.userId
+
+      const posts = await byUserService(id)
+
+      res.send({
+        results: posts.map(postsItem => ({ 
+            id: postsItem._id,
+            title: postsItem.title,
+            text: postsItem.text,
+            banner: postsItem.banner,
+            likes: postsItem.likes,
+            comments: postsItem.comments,
+            name: postsItem.user.name,
+            username: postsItem.user.username,
+            userAvatar: postsItem.user.avatar
+        }))
       })
 
     } catch (error) {
