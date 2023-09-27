@@ -13,7 +13,8 @@ const udpateService = (
     email, 
     password, 
     avatar, 
-    background) => User.findOneAndUpdate({ _id: id }, { name, username, email, password, avatar, background })
+    background
+    ) => User.findOneAndUpdate({ _id: id }, { name, username, email, password, avatar, background }, { rawResult: true })
 
 export default { 
   createService, 
