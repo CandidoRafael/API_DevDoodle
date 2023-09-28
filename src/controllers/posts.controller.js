@@ -5,7 +5,13 @@ import {
     topPostsService,
     findByIdService,
     searchByTitleService,
-    byUserService
+    byUserService,
+    updateService,
+    deletePostService,
+    likePostsService,
+    deleteLikePostService,
+    addCommentService,
+    deleteCommentService
 } from '../services/posts.service.js'
 
 
@@ -189,5 +195,119 @@ export const byUser = async (req, res) => {
 
     } catch (error) {
         res.status(500).send({message: error.message})
+    }
+}
+
+export const update =  async (req, res) => {
+    try {
+      const { title, text, banner } = req.body
+      const { id } = req.params
+
+      if(!title || !banner || !text) {
+        res.status(400).send({ message: "Submit at least one field to update the post" })
+    }
+
+    const posts = await findByIdService(id)
+
+    if(posts.user._id != req.userId) {
+        return res.status(400).send({
+            message: "You didn't update this post"
+        })
+    }
+
+    await updateService(id, title, text, banner)
+
+    return res.send({ message: "Post successfully updated!" })
+
+    } catch (error) {
+       res.status(500).send({message: error.message})
+    }
+}
+
+export const deletePost = async (req, res) => {
+    try {
+        const { id } = req.params
+
+        const posts = await findByIdService(id)
+      
+        if(posts.user._id != req.userId) {
+            return res.status(400).send({
+                message: "You didn't delete this post"
+            })
+        }
+
+        await deletePostService(id)
+
+        return res.send({message: "Post deleted successfully!"})
+        
+    } catch (error) {
+       res.status(500).send({message: error.message})
+    }
+}
+
+export const likePosts = async (req, res) => {
+    try {
+      const { id } = req.params
+      const userId = req.userId
+
+      const postLiked = await likePostsService(id, userId)
+
+      if(!postLiked) {
+        await deleteLikePostService(id, userId)
+        return res.status(200).send({message: "Like removed"})
+      }
+
+      res.send({ message: "Liked :)" })
+
+    } catch (error) {
+        res.status(500).send({message: error.message})
+    }
+}
+
+export const addComment = async (req, res) => {
+    try {
+        const { id } = req.params
+        const userId = req.userId
+        const { comment } = req.body
+
+        if(!comment) {
+            return res.status(400).send({ message: "Write a message to comment" })
+        }
+
+        await addCommentService(id, comment, userId)
+
+        res.send({
+            message: "Comment successfully completed!"
+        })
+
+    } catch (error) {
+        res.status(500).send({ message: error.message })
+    }
+
+}
+
+export const deleteComment = async (req, res) => {
+    try {
+        const { idPost, idComment } = req.params
+        const userId = req.userId
+
+        const commentDelete = await deleteCommentService(idPost, idComment, userId)
+        
+        const commentFinder = commentDelete.comments.find((comment) => comment.idComment === idComment )
+
+        if(!commentFinder) {
+          return res.status(400).send({message: "Comment not found"})
+        }
+
+        if(commentFinder.userId !== userId) {
+            return  res.status(400).send({message: "You can't delete this comment"})
+        }
+
+        res.send({
+            message: "Comment successfully deleted!"
+        })
+
+    } catch (error) {
+        res.status(500).send({ message: error.message })
     }
 }
