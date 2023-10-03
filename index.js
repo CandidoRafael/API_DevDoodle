@@ -14,7 +14,7 @@ const app = express()
 
 app.use(cors())
 
-const port = process.env.PORT || 3000
+
 
 connectDataBase()
 app.use(express.json())
@@ -23,4 +23,4 @@ app.use('/auth', authRoute)
 app.use("/posts", postsRoute)
 app.use("/doc", swaggerRoute)
 
-app.listen(port, () => console.log(`Servidor rodando na porta ${port}`));
+

@@ -1,31 +1,27 @@
-import { Router } from 'express'
-import { authMiddleware } from '../middlewares/auth.middlewares.js'
-import { 
-    create, 
-    findAll, 
-    topPost, 
-    findById, 
-    searchByTitle,
-    byUser,
-    update,
-    deletePost,
-    likePosts,
-    addComment,
-    deleteComment
-} from '../controllers/posts.controller.js'
+import postController from "../controllers/post.controller.js";
+import authMiddleware from "../middlewares/auth.middlewares.js";
+import validId from "../middlewares/global.middlewares.js";
+import { Router } from "express";
 
-const router = Router()
+const postRouter = Router();
 
-router.post("/", authMiddleware, create)
-router.get("/", findAll)
-router.get("/top", topPost)
-router.get("/search", searchByTitle)
-router.get("/byUser", authMiddleware, byUser)
-router.get("/:id", authMiddleware, findById)
-router.patch("/:id", authMiddleware, update)
-router.delete("/:id", authMiddleware, deletePost)
-router.patch("/like/:id", authMiddleware, likePosts)
-router.patch("/comment/:id", authMiddleware, addComment)
-router.patch("/comment/:idPost/:idComment", authMiddleware, deleteComment)
+postRouter.get("/", postController.findAllPostsController);
+postRouter.get("/top", postController.topPostController);
+postRouter.get("/search", postController.searchPostController);
 
-export default router
+postRouter.use(authMiddleware);
+postRouter.post("/create", postController.createPostController);
+
+postRouter.use(validId);
+postRouter.get("/byIdPost/:id", postController.findPostByIdController);
+postRouter.get("/byUserId", postController.findPostsByUserIdController);
+postRouter.patch("/update/:id", postController.updatePostController);
+postRouter.delete("/delete/:id", postController.deletePostController);
+postRouter.patch("/:id/like", postController.likePostController);
+postRouter.patch("/:id/comment", postController.commentPostController);
+postRouter.patch(
+  "/:id/:idComment/comment",
+  postController.commentDeletePostController
+);
+
+export default postRouter;

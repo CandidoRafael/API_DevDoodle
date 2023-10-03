@@ -2,11 +2,11 @@
   "name": "api-devdoodle",
   "version": "1.0.0",
   "description": "API for DevDoodle",
-  "main": "index.js",
+  "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "node index",
-    "dev": "nodemon index"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "keywords": [],
   "author": "Rafael Candido",
