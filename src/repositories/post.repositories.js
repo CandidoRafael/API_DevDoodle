@@ -12,7 +12,7 @@ function findAllPostsRepository(offset, limit) {
     .populate("user");
 }
 
-function topNewsRepository() {
+function topPostRepository() {
   return Post.findOne().sort({ _id: -1 }).populate("user");
 }
 
@@ -128,7 +128,7 @@ function commentsDeleteRepository(id, userId, idComment) {
 export default {
   createPostRepository,
   findAllPostsRepository,
-  topNewsRepository,
+  topPostRepository,
   findPostByIdRepository,
   searchPostRepository,
   findPostsByUserIdRepository,
