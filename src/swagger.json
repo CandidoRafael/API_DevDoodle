@@ -10,8 +10,8 @@
     },
     "servers": [
         {
-          "url": "https://api-devdoodle.onrender.com/",
-          "description": "Render Server"
+          "url": "https://apidevdoodle.vercel.app/",
+          "description": "Vercel Server"
         },
         {
             "url": "http://localhost:3000",

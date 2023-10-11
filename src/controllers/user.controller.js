@@ -14,7 +14,7 @@ async function createUserController(req, res) {
     });
     res.status(201).send(token);
   } catch (e) {
-    return res.status(400).send(e.message);
+    return res.status(404).send();
   }
 }
 

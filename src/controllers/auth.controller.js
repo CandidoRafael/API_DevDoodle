@@ -11,4 +11,4 @@ const loginController = async (req, res) => {
   }
 };
 
-export default  loginController 
+export default loginController 
