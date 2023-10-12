@@ -10,5 +10,4 @@ const loginController = async (req, res) => {
     return res.status(401).send(e.message);
   }
 };
-
-export default loginController 
+export default loginController;
