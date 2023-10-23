@@ -45,7 +45,7 @@ const updateUserRepository = (
       background,
     },
     {
-      rawResult: true,
+      includeResultMetadata: false,
     }
   );
 

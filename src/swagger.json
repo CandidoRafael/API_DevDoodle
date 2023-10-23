@@ -131,7 +131,7 @@
           }
         },
 
-        "/user/{id}": {
+        "/update/{id}": {
           "patch": {
             "summary": "Update user by id",
             "description": "Route responsible for editing the user by id",
