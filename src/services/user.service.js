@@ -33,7 +33,6 @@ async function createUserService({
   return token
 }
 
-
 async function findAllUserService() {
   const users = await userRepositories.findAllUserRepository();
 

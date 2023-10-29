@@ -1,4 +1,5 @@
 import Post from "../models/Post.js";
+import userRepositories from "./user.repositories.js";
 
 function createPostRepository(title, banner, text, userId) {
   return Post.create({ title, banner, text, user: userId });
@@ -92,19 +93,20 @@ function likesDeleteRepository(id, userId) {
   );
 }
 
-function commentsRepository(id, message, userId) {
+ async function commentsRepository(id, message, user) {
   let idComment = Math.floor(Date.now() * Math.random()).toString(36);
+  
   return Post.findOneAndUpdate(
     {
       _id: id,
     },
     {
       $push: {
-        comments: { idComment, userId, message, createdAt: new Date() },
+        comments: { idComment, user, message, createdAt: new Date() },
       },
     },
     {
-      rawResult: true,
+      includeResultMetadata: false
     }
   );
 }

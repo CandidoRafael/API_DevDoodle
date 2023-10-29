@@ -1,4 +1,5 @@
 import postRepositories from "../repositories/post.repositories.js";
+import userRepositories from "../repositories/user.repositories.js";
 
 async function createPostService({ title, banner, text }, userId) {
   if (!title || !banner || !text)
@@ -179,10 +180,15 @@ async function commentPostService(postId, message, userId) {
   if (!message) throw new Error("Write a message to comment");
 
   const post = await postRepositories.findPostByIdRepository(postId);
-
+  const { username, avatar } = await userRepositories.findByIdUserRepository(userId)
+  
   if (!post) throw new Error("Post not found");
 
-  await postRepositories.commentsRepository(postId, message, userId);
+  if(!username) {
+      throw new Error('Usuário não encontrado')
+  }
+
+  await postRepositories.commentsRepository(postId, message, { username, avatar });
 }
 
 async function commentDeletePostService(postId, userId, idComment) {
