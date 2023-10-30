@@ -188,7 +188,7 @@ async function commentPostService(postId, message, userId) {
       throw new Error('Usuário não encontrado')
   }
 
-  await postRepositories.commentsRepository(postId, message, { username, avatar });
+  await postRepositories.commentsRepository(postId, message, { username, avatar, userId });
 }
 
 async function commentDeletePostService(postId, userId, idComment) {
