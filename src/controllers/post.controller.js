@@ -81,7 +81,7 @@ async function updatePostController(req, res) {
   try {
     await postService.updatePostService(id, title, banner, text, userId);
 
-    return res.send({ message: "Post successfully updated!" });
+    return res.send({ message: "Post criado com sucesso" });
   } catch (e) {
     return res.status(500).send(e.message);
   }
@@ -93,7 +93,7 @@ async function deletePostController(req, res) {
 
   try {
     await postService.deletePostService(id, userId);
-    return res.send({ message: "Post deleted successfully" });
+    return res.send({ message: "Post deletado com sucesso" });
   } catch (err) {
     return res.status(500).send(e.message);
   }
@@ -118,10 +118,10 @@ async function commentPostController(req, res) {
   const userId = req.userId;
 
   try {
-    await postService.commentPostService(postId, message, userId);
-
+    const newComment = await postService.commentPostService(postId, message, userId);
     return res.send({
-      message: "Comment successfully completed!",
+      message: "Comentário publicado com sucesso",
+      comment: newComment.comments
     });
   } catch (e) {
     return res.status(500).send(e.message);
@@ -135,7 +135,7 @@ async function commentDeletePostController(req, res) {
   try {
     await postService.commentDeletePostService(postId, userId, idComment);
 
-    return res.send({ message: "Comment successfully removed" });
+    return res.send({ message: "Comentário removido com sucesso" });
   } catch (e) {
     return res.status(500).send(e.message);
   }

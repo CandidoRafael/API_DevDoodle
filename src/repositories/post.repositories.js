@@ -93,10 +93,10 @@ function likesDeleteRepository(id, userId) {
   );
 }
 
- async function commentsRepository(id, message, user) {
+ function commentsRepository(id, message, user) {
   let idComment = Math.floor(Date.now() * Math.random()).toString(36);
   
-  return Post.findOneAndUpdate(
+  const results = Post.findOneAndUpdate(
     {
       _id: id,
     },
@@ -106,9 +106,12 @@ function likesDeleteRepository(id, userId) {
       },
     },
     {
+      new: true,
       includeResultMetadata: false
     }
   );
+
+  return results
 }
 
 function commentsDeleteRepository(id, userId, idComment) {
