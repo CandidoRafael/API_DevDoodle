@@ -93,7 +93,7 @@ function likesDeleteRepository(id, userId) {
   );
 }
 
- function commentsRepository(id, message, user) {
+ function commentsRepository(id, message, userId, user) {
   let idComment = Math.floor(Date.now() * Math.random()).toString(36);
   
   const results = Post.findOneAndUpdate(
@@ -102,7 +102,7 @@ function likesDeleteRepository(id, userId) {
     },
     {
       $push: {
-        comments: { idComment, user, message, createdAt: new Date() },
+        comments: { idComment, userId, user, message, createdAt: new Date() },
       },
     },
     {
@@ -115,7 +115,8 @@ function likesDeleteRepository(id, userId) {
 }
 
 function commentsDeleteRepository(id, userId, idComment) {
-  return Post.findOneAndUpdate(
+  
+   const results = Post.findOneAndUpdate(
     {
       _id: id,
     },
@@ -123,11 +124,12 @@ function commentsDeleteRepository(id, userId, idComment) {
       $pull: {
         comments: {
           idComment: idComment,
-          userId: userId,
+          userId: userId
         },
       },
     }
   );
+    return results
 }
 
 export default {
