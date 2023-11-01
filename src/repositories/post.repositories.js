@@ -1,5 +1,4 @@
 import Post from "../models/Post.js";
-import userRepositories from "./user.repositories.js";
 
 function createPostRepository(title, banner, text, userId) {
   return Post.create({ title, banner, text, user: userId });
@@ -73,7 +72,7 @@ function likesRepository(id, userId) {
       },
     },
     {
-      rawResult: true,
+      includeResultMetadata: true,
     }
   );
 }

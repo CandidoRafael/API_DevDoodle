@@ -156,7 +156,7 @@ async function updatePostService(id, title, banner, text, userId) {
 }
 
 async function deletePostService(id, userId) {
-  const post = await postService.findPostByIdService(id);
+  const post = await postRepositories.findPostByIdService(id);
 
   if (!post) throw new Error("Post not found");
 
@@ -166,14 +166,14 @@ async function deletePostService(id, userId) {
 }
 
 async function likePostService(id, userId) {
-  const postLiked = await postService.likesService(id, userId);
+  const postLiked = await postRepositories.likesRepository(id, userId);
 
   if (postLiked.lastErrorObject.n === 0) {
-    await postService.likesDeleteService(id, userId);
-    return { message: "Like successfully removed" };
+    await postRepositories.likesDeleteRepository(id, userId);
+    return { message: false };
   }
 
-  return { message: "Like done successfully" };
+  return { message: true };
 }
 
 async function commentPostService(postId, message, userId) {
